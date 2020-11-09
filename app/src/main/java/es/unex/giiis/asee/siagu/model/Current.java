@@ -1,80 +1,83 @@
 
 package es.unex.giiis.asee.siagu.model;
 
+import androidx.room.Entity;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class Current {
 
     @SerializedName("last_updated_epoch")
     @Expose
-    private Integer lastUpdatedEpoch;
+    private Integer lastUpdatedEpoch=0;
     @SerializedName("last_updated")
     @Expose
-    private String lastUpdated;
+    private String lastUpdated=" ";
     @SerializedName("temp_c")
     @Expose
-    private Double tempC;
+    private Double tempC=0.0;
     @SerializedName("temp_f")
     @Expose
-    private Double tempF;
+    private Double tempF=0.0;
     @SerializedName("is_day")
     @Expose
-    private Integer isDay;
+    private Integer isDay=0;
     @SerializedName("condition")
     @Expose
     private Condition condition;
     @SerializedName("wind_mph")
     @Expose
-    private Double windMph;
+    private Double windMph=0.0;
     @SerializedName("wind_kph")
     @Expose
-    private Double windKph;
+    private Double windKph=0.0;
     @SerializedName("wind_degree")
     @Expose
-    private Integer windDegree;
+    private Integer windDegree=0;
     @SerializedName("wind_dir")
     @Expose
-    private String windDir;
+    private String windDir=" ";
     @SerializedName("pressure_mb")
     @Expose
-    private Double pressureMb;
+    private Double pressureMb=0.0;
     @SerializedName("pressure_in")
     @Expose
-    private Double pressureIn;
+    private Double pressureIn=0.0;
     @SerializedName("precip_mm")
     @Expose
-    private Double precipMm;
+    private Double precipMm=0.0;
     @SerializedName("precip_in")
     @Expose
-    private Double precipIn;
+    private Double precipIn=0.0;
     @SerializedName("humidity")
     @Expose
-    private Integer humidity;
+    private Integer humidity=0;
     @SerializedName("cloud")
     @Expose
-    private Integer cloud;
+    private Integer cloud=0;
     @SerializedName("feelslike_c")
     @Expose
-    private Double feelslikeC;
+    private Double feelslikeC=0.0;
     @SerializedName("feelslike_f")
     @Expose
-    private Double feelslikeF;
+    private Double feelslikeF=0.0;
     @SerializedName("vis_km")
     @Expose
-    private Double visKm;
+    private Double visKm=0.0;
     @SerializedName("vis_miles")
     @Expose
-    private Double visMiles;
+    private Double visMiles=0.0;
     @SerializedName("uv")
     @Expose
-    private Double uv;
+    private Double uv=0.0;
     @SerializedName("gust_mph")
     @Expose
-    private Double gustMph;
+    private Double gustMph=0.0;
     @SerializedName("gust_kph")
     @Expose
-    private Double gustKph;
+    private Double gustKph=0.0;
 
     public Integer getLastUpdatedEpoch() {
         return lastUpdatedEpoch;
@@ -259,5 +262,6 @@ public class Current {
     public void setGustKph(Double gustKph) {
         this.gustKph = gustKph;
     }
+
 
 }

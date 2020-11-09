@@ -1,20 +1,23 @@
 
 package es.unex.giiis.asee.siagu.model;
 
+import androidx.room.Entity;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class Condition {
 
     @SerializedName("text")
     @Expose
-    private String text;
+    private String text="";
     @SerializedName("icon")
     @Expose
-    private String icon;
+    private String icon="";
     @SerializedName("code")
     @Expose
-    private Integer code;
+    private Integer code=0;
 
     public String getText() {
         return text;

@@ -54,7 +54,6 @@ public class HomeFragment extends Fragment {
         AppExecutors.getInstance().networkIO().execute(new ReposNetworkLoaderRunnable((new OnReposLoadedListener() {
             @Override
             public void onReposLoaded(List<City> cityList) {
-
                 City city=cityList.get(0);
                 mCity=city;
                 SetCityData(mRoot,city);
