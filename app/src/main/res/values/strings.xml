@@ -7,7 +7,16 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
+    <string name="menu_home">Inicio</string>
+
     <string name="menu_slideshow">Slideshow</string>
+
+    <!-->USER SPACE<-->
+    <string name="user_name">user</string>
+    <string name="user_city">city</string>
+    <string name="menu_my_cities">Lista de ciudades</string>
+    <string name="menu_search_city">Buscar ciudad</string>
+    <string name="search_city">Buscar ciudad</string>
+    <string name="my_cities">Ciudades</string>
+
 </resources>

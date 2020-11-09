@@ -1,16 +1,16 @@
-package es.unex.giiis.asee.siagu.ui.slideshow;
+package es.unex.giiis.asee.siagu.ui.cityList;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+public class CityListViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SlideshowViewModel() {
+    public CityListViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        mText.setValue("This is city list fragment");
     }
 
     public LiveData<String> getText() {

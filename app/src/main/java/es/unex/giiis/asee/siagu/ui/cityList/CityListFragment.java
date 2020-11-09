@@ -1,4 +1,4 @@
-package es.unex.giiis.asee.siagu.ui.slideshow;
+package es.unex.giiis.asee.siagu.ui.cityList;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import es.unex.giiis.asee.siagu.R;
 
-public class SlideshowFragment extends Fragment {
+public class CityListFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private CityListViewModel cityListViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        cityListViewModel =
+                ViewModelProviders.of(this).get(CityListViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_city_list, container, false);
+        final TextView textView = root.findViewById(R.id.text_city_list);
+        cityListViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
