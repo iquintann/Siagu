@@ -25,7 +25,6 @@ import es.unex.giiis.asee.siagu.model.City;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private City mCity;
     private View mRoot;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -55,14 +54,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onReposLoaded(List<City> cityList) {
                 City city=cityList.get(0);
-                mCity=city;
                 SetCityData(mRoot,city);
             }
         }),getContext(),cityName));
 
     }
 
-    private void SetCityData(View root, City city) {
+    public void SetCityData(View root, City city) {
 
         SharedPreferences sharedPref = HomeFragment.this.getActivity().getSharedPreferences(Setting_Siagu.USERDATA, Context.MODE_PRIVATE);
         TextView textViewNameUser = root.findViewById(R.id.username);
@@ -96,7 +94,7 @@ public class HomeFragment extends Fragment {
 
 
         Toast toast1 =Toast.makeText(getActivity().getApplicationContext(),
-                "Cargados datos de "+cityName, Toast.LENGTH_SHORT);
+                "Actualizados datos de "+cityName, Toast.LENGTH_SHORT);
         toast1.show();
     }
 }

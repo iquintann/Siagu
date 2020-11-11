@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import es.unex.giiis.asee.siagu.model.City;
 
-@Database(entities = {City.class},version = 3)
+@Database(entities = {City.class},version = 4)
 public abstract class CityDataBase extends RoomDatabase {
     private static CityDataBase instance;
     public static CityDataBase getInstance(Context context){

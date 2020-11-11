@@ -18,5 +18,6 @@
     <string name="menu_search_city">Buscar ciudad</string>
     <string name="search_city">Buscar ciudad</string>
     <string name="my_cities">Ciudades</string>
+    <string name="buttonEliminar">Eliminar de la lista</string>
 
 </resources>

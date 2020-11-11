@@ -1,6 +1,7 @@
 package es.unex.giiis.asee.siagu.ui.cityList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.unex.giiis.asee.siagu.City_Detail;
 import es.unex.giiis.asee.siagu.R;
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
 import es.unex.giiis.asee.siagu.model.City;
@@ -42,13 +44,13 @@ public class CityListFragment extends Fragment {
         cityListViewModel =
                 ViewModelProviders.of(this).get(CityListViewModel.class);
         View root = inflater.inflate(R.layout.fragment_city_list, container, false);
-        mContext=getContext();
+        mContext = getContext();
 
         //Obtengo una instancia del DAO
         CityDataBase.getInstance(mContext);
 
         //Recycler
-        mCityList= new ArrayList<>();
+        mCityList = new ArrayList<>();
         mRecyclerView = (RecyclerView) root.findViewById(R.id.my_recycler_view_list_city);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -56,7 +58,10 @@ public class CityListFragment extends Fragment {
         mAdapter = new CityAdapter(new CityAdapter.OnCityClickListener() {
             @Override
             public void onItemClick(City item) {
-                Snackbar.make(getView(),"Item "+item.getLocation().getName()+" clicked!" ,Snackbar.LENGTH_LONG).show();
+                Snackbar.make(getView(), "Item " + item.getLocation().getName() + " clicked!", Snackbar.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), City_Detail.class);
+                intent.putExtra("Id", item.getId());
+                startActivity(intent);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -66,27 +71,29 @@ public class CityListFragment extends Fragment {
             @Override
             public void run() {
                 //TODO Echarle un vistazo
-                CityDataBase dataBase= CityDataBase.getInstance(mContext);
-                Double lat=45.0;
-                Double lon=45.0;
-                City prueba = new City("Prueba city","Region","COUNTRY",lat,lon);
+                CityDataBase dataBase = CityDataBase.getInstance(mContext);
+                Double lat = 45.0;
+                Double lon = 45.0;
+                //City prueba = new City("Prueba city","Region","COUNTRY",lat,lon);
 
-                dataBase.getDao().deleteAll();
-                dataBase.getDao().insert(prueba);
+                //dataBase.getDao().deleteAll();
+                //dataBase.getDao().insert(prueba);
                 mCityList = dataBase.getDao().getAll();
 
-                Log.d("CityListFragment","Inserto: " +prueba);
-                Log.d("CityListFragment",mCityList.toString());
+                // Log.d("CityListFragment","Inserto: " +prueba);
+                Log.d("CityListFragment", mCityList.toString());
 
-                if(mCityList!=null){
+                /*if (mCityList != null) {
                     //necesario hacerlo desde hilo rpincipal
-                    getActivity().runOnUiThread(() -> {for (City c:mCityList){
-                        Log.d("CityList","City: "+c);
-                        mAdapter.add(c);
-                    }} );
+                    getActivity().runOnUiThread(() -> {
+                        for (City c : mCityList) {
+                            Log.d("CityList", "City: " + c);
+                            mAdapter.add(c);
+                        }
+                    });
 
 
-                }
+                }*/
 
             }
         });
@@ -98,8 +105,25 @@ public class CityListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        mAdapter.clear();
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
 
+                CityDataBase dataBase = CityDataBase.getInstance(mContext);
+                mCityList = dataBase.getDao().getAll();
 
+                if (mCityList != null) {
+                    //necesario hacerlo desde hilo rpincipal
+                    getActivity().runOnUiThread(() -> {
+                        for (City c : mCityList) {
+                            Log.d("CityList", "City: " + c);
+                            mAdapter.add(c);
+                        }
+                    });
+                }
+            }
+        });
 
     }
 }

@@ -19,6 +19,11 @@ public class Condition {
     @Expose
     private Integer code=0;
 
+    public Condition(String toString) {
+        String  [] cadena=toString.split("'");
+        text= cadena[1];
+    }
+
     public String getText() {
         return text;
     }
@@ -43,4 +48,12 @@ public class Condition {
         this.code = code;
     }
 
+    @Override
+    public String toString() {
+        return "Condition{" +
+                "text='" + text + '\'' +
+                "; icon='" + icon + '\'' +
+                "; code=" + code +
+                '}';
+    }
 }

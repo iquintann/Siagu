@@ -26,4 +26,8 @@ public interface CityItemDao {
 
     @Update
     public int update(City city);
-}
+
+
+    @Query("DELETE FROM city WHERE id = :userId")
+    abstract void deleteById(long userId);
+    }

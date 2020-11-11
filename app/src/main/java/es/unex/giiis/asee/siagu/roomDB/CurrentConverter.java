@@ -2,6 +2,7 @@ package es.unex.giiis.asee.siagu.roomDB;
 
 import androidx.room.TypeConverter;
 
+import es.unex.giiis.asee.siagu.model.Condition;
 import es.unex.giiis.asee.siagu.model.Current;
 
 public class CurrentConverter  {
@@ -14,7 +15,7 @@ public class CurrentConverter  {
         current.getTempC()+","+
         current.getTempF()+","+
         current.getIsDay()+","+
-        current.getCondition()+","+
+        current.getCondition().toString()+","+
         current.getWindMph()+","+
         current.getWindKph()+","+
         current.getWindDegree()+","+
@@ -44,7 +45,7 @@ public class CurrentConverter  {
                 current.setTempC(Double.parseDouble(frac[2]));
                 current.setTempF(Double.parseDouble(frac[3]));
                 current.setIsDay(Integer.parseInt(frac[4]));
-                //current.setCondition(frac[5]);
+                current.setCondition(new Condition(frac[5].toString()));
                 current.setWindMph(Double.parseDouble(frac[6]));
                 current.setWindKph(Double.parseDouble(frac[7]));
                 current.setWindDegree(Integer.parseInt(frac[8]));

@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.siagu.ui.searchcity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.unex.giiis.asee.siagu.City_Detail;
+import es.unex.giiis.asee.siagu.MainActivity;
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
 import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.R;
@@ -48,7 +52,12 @@ public class SearchCityFragment extends Fragment {
         mAdapter = new CityAdapter(new CityAdapter.OnCityClickListener() {
             @Override
             public void onItemClick(City item) {
-                Snackbar.make(getView(),"Item "+item.getLocation().getName()+" clicked!" ,Snackbar.LENGTH_LONG).show();
+                Snackbar.make(getView(),"Item "+item+" clicked!" ,Snackbar.LENGTH_LONG).show();
+                //lanzar un intent a una nueva actividad con los datos de la seleccionada + petición api
+                Intent intent= new Intent(getActivity(), City_Detail.class);
+                intent.putExtra("Lat", item.getLocation().getLat());
+                intent.putExtra("Lon", item.getLocation().getLon());
+                startActivity(intent);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -76,6 +85,7 @@ public class SearchCityFragment extends Fragment {
                     public void onReposLoaded(List<City> cityList) {
                         mCityList.addAll(cityList);
                         Log.d("SearchCity","Lista de ciudades: "+cityList);
+
 
                         //Añadir todas las ciudades, obtenidas una vez obtenidas
                         for(City city: cityList)

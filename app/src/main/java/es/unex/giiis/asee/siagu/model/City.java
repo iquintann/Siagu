@@ -1,5 +1,7 @@
 package es.unex.giiis.asee.siagu.model;
 
+import android.util.Log;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -10,15 +12,18 @@ import androidx.room.TypeConverters;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import es.unex.giiis.asee.siagu.roomDB.CurrentConverter;
 import es.unex.giiis.asee.siagu.roomDB.LocationConverter;
 
 @Entity(tableName = "city")
-public class City {
+public class City implements Serializable {
 
+    @ColumnInfo
     @PrimaryKey(autoGenerate = true)
     private long id;
-    //TODO QUITAR IGNORE
     @SerializedName("location")
     @Expose
     //@ColumnInfo(name="location")
@@ -42,6 +47,7 @@ public class City {
     }
 
     public City(long id){
+        this.id=id;
         location = new Location();
         current = new Current();
     }
@@ -81,4 +87,19 @@ public class City {
                 ", coord={" + location.getLat()+" "+ location.getLon() + "}" +
                 '}';
     }
-}
+
+
+    public boolean equalCity(City enter) {
+        String thisCity = this.getLocation().getName();
+        String paramCity = enter.getLocation().getName();
+        Log.d("equalCity",thisCity+" -- "+paramCity);
+        if(thisCity.equals(paramCity))
+            return true;
+        /*if(location.getName().equals(enter.getLocation().getName())&&
+                location.getCountry().equals(enter.getLocation().getCountry())&&
+                location.getRegion().equals(enter.getLocation().getRegion()))
+            return true;*/
+        return false;
+    }
+
+  }
