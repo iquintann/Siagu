@@ -72,8 +72,8 @@ public class CityListFragment extends Fragment {
             public void run() {
                 //TODO Echarle un vistazo
                 CityDataBase dataBase = CityDataBase.getInstance(mContext);
-                Double lat = 45.0;
-                Double lon = 45.0;
+               /* Double lat = 45.0;
+                Double lon = 45.0;*/
                 //City prueba = new City("Prueba city","Region","COUNTRY",lat,lon);
 
                 //dataBase.getDao().deleteAll();

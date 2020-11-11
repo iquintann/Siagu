@@ -1,11 +1,13 @@
 package es.unex.giiis.asee.siagu.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import java.util.List;
 
+import es.unex.giiis.asee.siagu.ForecastActivity;
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
 import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.R;
@@ -26,6 +29,7 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private View mRoot;
+    private City prefCity;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -55,9 +59,26 @@ public class HomeFragment extends Fragment {
             public void onReposLoaded(List<City> cityList) {
                 City city=cityList.get(0);
                 SetCityData(mRoot,city);
+                prefCity=city;
             }
         }),getContext(),cityName));
 
+        //Configuración del boton de previsión
+        forecastButtonConfig();
+
+    }
+
+    private void forecastButtonConfig() {
+        Button foreButton = mRoot.findViewById(R.id.buttonForecastHome);
+        foreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ForecastActivity.class);
+                String coord=prefCity.getLocation().getLat().toString()+","+prefCity.getLocation().getLon().toString();
+                intent.putExtra("Coord",coord);
+                startActivity(intent);
+            }
+        });
     }
 
     public void SetCityData(View root, City city) {

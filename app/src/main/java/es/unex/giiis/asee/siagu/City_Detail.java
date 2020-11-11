@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Database;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -67,6 +68,8 @@ public class City_Detail extends AppCompatActivity {
             Log.d("CityDetail", "Coordinates: " + coorLat + " " + coorLong);
             procesadoPorBusqueda(coorCity);
          }
+
+        forecastButtonConfig();
     }
 
     private City obtenerElementoPorId(List<City> list, long idCity) {
@@ -102,6 +105,8 @@ public class City_Detail extends AppCompatActivity {
                         Log.d("CityDetail", mContenido + " en DAO");
 
                         botonFavAddDelete();
+
+
 
 
 
@@ -153,11 +158,24 @@ public class City_Detail extends AppCompatActivity {
         });
     }
 
+    private void forecastButtonConfig() {
+        Button foreButton = this.findViewById(R.id.buttonForecastCityDetail);
+        foreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(City_Detail.this, ForecastActivity.class);
+                String coord=cityToShow.getLocation().getLat().toString()+","+cityToShow.getLocation().getLon().toString();
+                intent.putExtra("Coord",coord);
+                startActivity(intent);
+            }
+        });
+    }
+
     private void parseoCityToShow(City cityToShow) {
 
         String name = cityToShow.getLocation().getName();
         String[] nameChar = name.split("=");
-        Log.d("ParseoCityTiShow", name);
+        Log.d("ParseoCityToShow", name);
         cityToShow.getLocation().setName(nameChar[1]);
 
         String country = cityToShow.getLocation().getCountry();

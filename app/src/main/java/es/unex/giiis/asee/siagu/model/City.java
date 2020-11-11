@@ -6,14 +6,12 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import es.unex.giiis.asee.siagu.roomDB.CurrentConverter;
 import es.unex.giiis.asee.siagu.roomDB.LocationConverter;
@@ -33,6 +31,11 @@ public class City implements Serializable {
     @Expose
     @TypeConverters(CurrentConverter.class)
     private Current current;
+
+    @SerializedName("forecast")
+    @Expose
+    @Ignore
+    private Forecast forecast;
 
     //para el conversor util.searchCity2City
     @Ignore
@@ -77,16 +80,27 @@ public class City implements Serializable {
         this.current = current;
     }
 
+    public Forecast getForecast() {
+        return forecast;
+    }
+
+    public City setForecast(Forecast forecast) {
+        this.forecast = forecast;
+        return this;
+    }
+
+
     @Ignore
     @Override
     public String toString() {
-        return "City{" +
+        String toReturn="City{" +
                 "name=" + location.getName() +
                 ", region=" + location.getRegion() +
                 ", country=" + location.getCountry() +
-                ", coord={" + location.getLat()+" "+ location.getLon() + "}" +
-                '}';
-    }
+                ", coord={" + location.getLat()+" "+ location.getLon() + "}";
+        toReturn=toReturn+"}";
+        return toReturn;
+                    }
 
 
     public boolean equalCity(City enter) {
@@ -102,4 +116,6 @@ public class City implements Serializable {
         return false;
     }
 
-  }
+
+
+}

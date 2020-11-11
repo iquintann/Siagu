@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.siagu.api_runable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.unex.giiis.asee.siagu.model.City;
@@ -17,5 +18,8 @@ public interface ApiService {
     Call<City> listCity(@Query("key") String key, @Query("q") String city, @Query("lang") String lang);
 
     @GET("search.json")
-    Call <List <SearchCity> > searchCity(@Query("key") String key, @Query("q") String city);
+    Call <List <SearchCity>> searchCity(@Query("key") String key, @Query("q") String city);
+
+    @GET("forecast.json")
+    Call <City> forecastCity(@Query("key") String key, @Query("q") String city, @Query("lang") String lang, @Query("days") String days);
 }
