@@ -1,6 +1,7 @@
 package es.unex.giiis.asee.siagu;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,6 +42,8 @@ public class ForecastActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private ForecastdayAdapter mAdapter;
+    //Numero de dias, de momento fijo
+    private int dias = 3;
 
 
     @Override
@@ -53,10 +56,10 @@ public class ForecastActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.forecastRecyclerView);
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
+        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         //Crear adaptador
-        mAdapter= new ForecastdayAdapter(new ForecastdayAdapter.OnCityClickListener() {
+        mAdapter = new ForecastdayAdapter(new ForecastdayAdapter.OnCityClickListener() {
             @Override
             public void onItemClick(Forecastday item) {
 
@@ -69,35 +72,46 @@ public class ForecastActivity extends AppCompatActivity {
 
         //Nombre de la ciudad
         Intent intent = getIntent();
-        String cityName=intent.getStringExtra("Coord");
-        //Numero de dias, de momento fijo
-        int dias=7;
+        String cityName = intent.getStringExtra("Coord");
+
 
         //LLamamiento a la API
         //Lo maximo que devuelve la API es 3 dias consecutivo contado desde hoy
         AppExecutors.getInstance().networkIO().execute(new ReposNetworkForescast((new OnReposLoadedListener() {
             @Override
             public void onReposLoaded(List<City> cityList) {
-                Log.d("Forecast","Cargado");
+                Log.d("Forecast", "Cargado");
                 //Trocear
-                mCity=cityList.get(0);
+                mCity = cityList.get(0);
                 List<Forecastday> forecastdayList = mCity.getForecast().getForecastday();
-                mForecastList=forecastdayList;
+                mForecastList = forecastdayList;
 
                 //Cargar en el recycler view
-               runOnUiThread(() -> {
-                   mAdapter.clear();
-                   for (Forecastday c : mForecastList) {
-                       Log.d("ForecastList",c.getDate());
-                       mAdapter.add(c);
-                   }
-               });
+                runOnUiThread(() -> {
+                    mAdapter.clear();
+                    for (Forecastday c : mForecastList) {
+                        Log.d("ForecastList", c.getDate());
+                        mAdapter.add(c);
+                    }
+                });
 
 
             }
-        }),this,cityName,3));
+        }), this, cityName, 3));
 
+        ActionBar bar = getSupportActionBar();
+        if (bar != null) {
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setTitle("Previsión de los próximos " + dias + " días");
         }
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
 
 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment"
+    android:id="@+id/cityDetailtLayout"
     >
 
     <Button
@@ -23,15 +24,16 @@
         android:id="@+id/textViewNameCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:text="Nombre ciudad"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.149" />
+        app:layout_constraintTop_toBottomOf="@+id/favIco"
+        app:layout_constraintVertical_bias="0.132" />
 
     <TableLayout
         android:id="@+id/tableLayout"
@@ -42,7 +44,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.711">
+        app:layout_constraintVertical_bias="0.613">
 
         <TextView
             android:id="@+id/viewDay"
@@ -176,14 +178,13 @@
         android:id="@+id/buttonForecastCityDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="Prevision del tiempo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.369" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

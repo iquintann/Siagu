@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.siagu;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Database;
 
@@ -8,10 +9,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import java.util.List;
 
@@ -27,19 +31,21 @@ public class City_Detail extends AppCompatActivity {
     private City cityToShow;
     private boolean mContenido = false;
     private CityDataBase mDataBase;
-
+    private View mView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_detail);
 
+
+
         String coorLat=null;
         String coorLong=null;
 
         try {
-             coorLat = getIntent().getSerializableExtra("Lat").toString();
-             coorLong = getIntent().getSerializableExtra("Lon").toString();
+            coorLat = getIntent().getSerializableExtra("Lat").toString();
+            coorLong = getIntent().getSerializableExtra("Lon").toString();
         }
         catch (Exception e){
 
@@ -67,9 +73,26 @@ public class City_Detail extends AppCompatActivity {
             String coorCity = coorLat + "," + coorLong;
             Log.d("CityDetail", "Coordinates: " + coorLat + " " + coorLong);
             procesadoPorBusqueda(coorCity);
-         }
+        }
 
         forecastButtonConfig();
+
+        configuracionDeAppBar();
+
+    }
+
+    private void configuracionDeAppBar() {
+        ActionBar bar = getSupportActionBar();
+        if(bar != null){
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setTitle("Detalles del clima");
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private City obtenerElementoPorId(List<City> list, long idCity) {
