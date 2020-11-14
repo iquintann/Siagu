@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
-                //TODO actualizar datos
 
             default:
                 Log.d("onOptionsItemSelected","Seleccionado"+item.getItemId());

@@ -2,20 +2,14 @@ package es.unex.giiis.asee.siagu;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Database;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import java.util.List;
 
@@ -24,7 +18,9 @@ import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.api_runable.ReposNetworkLoaderRunnable;
 import es.unex.giiis.asee.siagu.model.City;
 import es.unex.giiis.asee.siagu.roomDB.CityDataBase;
-import es.unex.giiis.asee.siagu.ui.home.HomeFragment;
+
+import static es.unex.giiis.asee.siagu.Util.imageTiempo;
+
 
 public class City_Detail extends AppCompatActivity {
 
@@ -234,8 +230,10 @@ public class City_Detail extends AppCompatActivity {
         TextView textViewNameCity = findViewById(R.id.textViewNameCity);
         textViewNameCity.setText(cityName + ", " + city.getLocation().getCountry());
 
+
         TextView viewDay = findViewById(R.id.viewDay);
         viewDay.setText(city.getCurrent().getCondition().getText());
+        Log.d("CurrentCityDetail",city.getCurrent().getCondition().getText());
 
         TextView viewTemperature = findViewById(R.id.viewTemperature);
         viewTemperature.setText(city.getCurrent().getTempC().toString() + " º");
@@ -254,5 +252,13 @@ public class City_Detail extends AppCompatActivity {
 
         TextView posRain = findViewById(R.id.posRain);
         posRain.setText(city.getCurrent().getPrecipMm().toString() + " mm");
+
+        ImageView imageView = findViewById(R.id.imageWheater);
+        String tiempo = city.getCurrent().getCondition().getText();
+        int source=imageTiempo(tiempo);
+        imageView.setImageResource(source);
+
     }
+
+
 }

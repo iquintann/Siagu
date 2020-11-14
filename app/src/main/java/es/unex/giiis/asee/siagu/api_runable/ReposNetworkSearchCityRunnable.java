@@ -32,7 +32,7 @@ public class ReposNetworkSearchCityRunnable implements Runnable {
 
         String key= MainActivity.KEY_API;
         String textSearch=mTextSearch;
-        //TODO necesario?
+        
         String lang="es";
 
         try {

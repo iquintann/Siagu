@@ -70,7 +70,7 @@ public class CityListFragment extends Fragment {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                //TODO Echarle un vistazo
+
                 CityDataBase dataBase = CityDataBase.getInstance(mContext);
                /* Double lat = 45.0;
                 Double lon = 45.0;*/

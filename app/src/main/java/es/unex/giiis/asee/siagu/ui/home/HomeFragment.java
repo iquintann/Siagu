@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ import es.unex.giiis.asee.siagu.R;
 import es.unex.giiis.asee.siagu.api_runable.ReposNetworkLoaderRunnable;
 import es.unex.giiis.asee.siagu.Setting_Siagu;
 import es.unex.giiis.asee.siagu.model.City;
+
+import static es.unex.giiis.asee.siagu.Util.imageTiempo;
 
 public class HomeFragment extends Fragment {
 
@@ -112,6 +115,11 @@ public class HomeFragment extends Fragment {
 
         TextView posRain = root.findViewById(R.id.posRain);
         posRain.setText(city.getCurrent().getPrecipMm().toString()+" mm");
+
+        ImageView imageView = root.findViewById(R.id.imageWheater);
+        String tiempo = city.getCurrent().getCondition().getText();
+        int source = imageTiempo(tiempo);
+        imageView.setImageResource(source);
 
 
         Toast toast1 =Toast.makeText(getActivity().getApplicationContext(),

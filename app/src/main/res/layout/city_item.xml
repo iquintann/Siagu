@@ -49,6 +49,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:text="Country"
+                android:layout_marginLeft="10dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"></TextView>
 
         </LinearLayout>

@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contenedor"
         android:layout_marginLeft="10dp"
@@ -25,8 +27,20 @@
         android:background="@drawable/customborder">
 
 
+        <ImageView
+            android:id="@+id/imageWheater"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+
+            app:layout_constraintBottom_toTopOf="@+id/tableLayout3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.87" />
+
         <TableLayout
 
+            android:id="@+id/tableLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -100,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-
+                    android:layout_marginLeft="10dp"
                     android:text="Wheater"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -134,7 +148,7 @@
                     android:id="@+id/textViewTempMin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginLeft="10dp"
                     android:text="Wheater"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

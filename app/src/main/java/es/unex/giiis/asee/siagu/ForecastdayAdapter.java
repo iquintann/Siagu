@@ -3,6 +3,7 @@ package es.unex.giiis.asee.siagu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,8 @@ import java.util.List;
 import es.unex.giiis.asee.siagu.model.City;
 import es.unex.giiis.asee.siagu.model.Forecastday;
 import es.unex.giiis.asee.siagu.ui.searchcity.CityAdapter;
+
+import static es.unex.giiis.asee.siagu.Util.imageTiempo;
 
 public class ForecastdayAdapter extends RecyclerView.Adapter<ForecastdayAdapter.ViewHolder> {
     private final List<Forecastday> mItems = new ArrayList<Forecastday>();
@@ -71,6 +74,7 @@ public class ForecastdayAdapter extends RecyclerView.Adapter<ForecastdayAdapter.
         private TextView weather;
         private TextView maxTmp;
         private TextView minTmp;
+        private ImageView mImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,6 +82,7 @@ public class ForecastdayAdapter extends RecyclerView.Adapter<ForecastdayAdapter.
             weather = itemView.findViewById(R.id.textViewWheater);
             maxTmp = itemView.findViewById(R.id.textViewTempMax);
             minTmp = itemView.findViewById(R.id.textViewTempMin);
+            mImageView = itemView.findViewById(R.id.imageWheater);
 
 
         }
@@ -87,6 +92,10 @@ public class ForecastdayAdapter extends RecyclerView.Adapter<ForecastdayAdapter.
             weather.setText(forecastday.getDay().getCondition().getText());
             maxTmp.setText(forecastday.getDay().getMaxtempC().toString()+"º");
             minTmp.setText(forecastday.getDay().getMintempC().toString()+"º");
+
+            String tiempo = forecastday.getDay().getCondition().getText();
+            int source = imageTiempo(tiempo);
+            mImageView.setImageResource(source);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
