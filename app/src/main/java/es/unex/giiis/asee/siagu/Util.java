@@ -47,6 +47,7 @@ public class Util {
             case "Lluvias fuertes o moderadas":
                 source = R.drawable.icw_rainny_hard;
                 break;
+            case "Nublado":
             case "Parcialmente nublado":
                 source = R.drawable.icw_cloud;
                 break;

@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import java.util.List;
 
-import es.unex.giiis.asee.siagu.ForecastActivity;
+import es.unex.giiis.asee.siagu.forecast.ForecastActivity;
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
 import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.R;
@@ -40,13 +40,7 @@ public class HomeFragment extends Fragment {
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         mRoot=root;
-        /*final TextView textView = root.findViewById(R.id.nav_host_fragment);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
+
 
         return root;
     }

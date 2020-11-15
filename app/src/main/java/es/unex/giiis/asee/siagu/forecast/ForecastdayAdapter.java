@@ -1,4 +1,4 @@
-package es.unex.giiis.asee.siagu;
+package es.unex.giiis.asee.siagu.forecast;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.unex.giiis.asee.siagu.model.City;
+import es.unex.giiis.asee.siagu.R;
 import es.unex.giiis.asee.siagu.model.Forecastday;
-import es.unex.giiis.asee.siagu.ui.searchcity.CityAdapter;
 
 import static es.unex.giiis.asee.siagu.Util.imageTiempo;
 

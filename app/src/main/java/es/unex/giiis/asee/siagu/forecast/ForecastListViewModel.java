@@ -1,4 +1,4 @@
-package es.unex.giiis.asee.siagu;
+package es.unex.giiis.asee.siagu.forecast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

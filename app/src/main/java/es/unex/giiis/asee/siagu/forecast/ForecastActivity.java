@@ -1,9 +1,7 @@
-package es.unex.giiis.asee.siagu;
+package es.unex.giiis.asee.siagu.forecast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,25 +9,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import java.util.ArrayList;
 import java.util.List;
 
+import es.unex.giiis.asee.siagu.R;
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
 import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.api_runable.ReposNetworkForescast;
-import es.unex.giiis.asee.siagu.api_runable.ReposNetworkLoaderRunnable;
 import es.unex.giiis.asee.siagu.model.City;
-import es.unex.giiis.asee.siagu.model.Forecast;
 import es.unex.giiis.asee.siagu.model.Forecastday;
-import es.unex.giiis.asee.siagu.ui.cityList.CityListViewModel;
-import es.unex.giiis.asee.siagu.ui.searchcity.CityAdapter;
 
 public class ForecastActivity extends AppCompatActivity {
 

@@ -27,7 +27,6 @@ import es.unex.giiis.asee.siagu.R;
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
 import es.unex.giiis.asee.siagu.model.City;
 import es.unex.giiis.asee.siagu.roomDB.CityDataBase;
-import es.unex.giiis.asee.siagu.roomDB.CityItemDao;
 import es.unex.giiis.asee.siagu.ui.searchcity.CityAdapter;
 
 public class CityListFragment extends Fragment {
