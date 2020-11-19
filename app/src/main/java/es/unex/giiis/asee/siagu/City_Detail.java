@@ -208,7 +208,7 @@ public class City_Detail extends AppCompatActivity {
 
     }
 
-    private boolean dentroDeLista(List<City> cityList, City cityToView) {
+    public static boolean dentroDeLista(List<City> cityList, City cityToView) {
         Log.d("CityDetail", "Param: " + cityToView.toString());
         boolean dentro = false;
         for (City c : cityList) {

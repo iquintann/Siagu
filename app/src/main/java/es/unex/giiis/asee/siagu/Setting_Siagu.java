@@ -18,6 +18,7 @@ public class Setting_Siagu extends AppCompatActivity {
     public static final String USERNAME = "USERNAME";
     public static final String USERDATA = "USERDATA";
     public static final String USERCITY = "USERCITY";
+    public static final String PREFID = "USERID";
 
 
     @Override

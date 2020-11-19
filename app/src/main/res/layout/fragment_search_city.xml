@@ -14,17 +14,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         >
 
         <Button
-
+            android:layout_gravity="center"
             android:id="@+id/buttonSearchCity"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:text="Buscar"
+            android:background="@drawable/custom_button_border"
+            android:padding="10dp"
             />
         <EditText
             android:id="@+id/editTextTextSearchCity"
