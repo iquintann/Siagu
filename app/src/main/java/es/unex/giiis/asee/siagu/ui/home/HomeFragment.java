@@ -34,7 +34,7 @@ import es.unex.giiis.asee.siagu.Setting_Siagu;
 import es.unex.giiis.asee.siagu.model.City;
 import es.unex.giiis.asee.siagu.roomDB.CityDataBase;
 
-import static es.unex.giiis.asee.siagu.City_Detail.dentroDeLista;
+import static es.unex.giiis.asee.siagu.Setting_Siagu.USERDATA;
 import static es.unex.giiis.asee.siagu.Util.imageTiempo;
 
 public class HomeFragment extends Fragment implements OnReposLoadedListener {
@@ -46,36 +46,29 @@ public class HomeFragment extends Fragment implements OnReposLoadedListener {
     private SharedPreferences sharedPreferences;
 
     private CityRepository mRepository;
-    private SharedPreferences.OnSharedPreferenceChangeListener listener;
+    private int favId;
+
 
     /*
     on Create
      */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        sharedPreferences = getContext().getSharedPreferences(USERDATA, Context.MODE_PRIVATE);
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         mRoot = root;
         mDataBase = CityDataBase.getInstance(getContext());
-        sharedPreferences = getContext().getSharedPreferences(Setting_Siagu.USERDATA, Context.MODE_PRIVATE);
+
 
         //-----
-        String cityName = sharedPreferences.getString(Setting_Siagu.USERCITY, "Ciudad");
 
+//        favId = sharedPreferences.getString(Setting_Siagu.PREFCITY, "NADA");
         //Obtenemos instancia del repositorio
         mRepository = CityRepository.getInstance(CityDataBase.getInstance(getContext()).getDao(), CityNewtworkDataSource.getInstance());
         mRepository.getCurrentRepos().observe((LifecycleOwner) getContext(), this::onReposLoaded);
-        mRepository.setCityName(cityName,prefCity);
 
-
-        //TODO Observe Shared pref
-       /* sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
-            }
-        });*/
 
 
         return root;
@@ -89,30 +82,43 @@ public class HomeFragment extends Fragment implements OnReposLoadedListener {
         AppExecutors.getInstance().mainThread().execute(new Runnable() {
             @Override
             public void run() {
-                if(cityList.size() > 0) {
-                    //Log.d("onRepostLoaded", "Paso por aqui");
-                    //Log.d("onRepostLoaded", cityList.get(0).toString());
-                    buscarFavorita(cityList,sharedPreferences.getString(Setting_Siagu.USERCITY,"DEFECTO"));
+                int numCity = cityList.size();
+                if (numCity > 0) {
+                    Log.d("onReposLoaded","Ciudades ?¿-"+cityList);
+                    prefCity = getCityPrincipal(cityList);
+                    AppExecutors.getInstance().mainThread().execute(() -> {
+                        SetCityData(mRoot, prefCity);
+                        //Configuración del boton de previsión
+                        forecastButtonConfig();
+                    });
 
-                    prefCity = cityList.get(cityList.size()-1);
-                    SetCityData(mRoot, prefCity);
-                    //Configuración del boton de previsión
-                    forecastButtonConfig();
                 }
             }
         });
 
     }
 
+    private City getCityPrincipal(List<City> cityList) {
+        for (City c : cityList) {
+            if (c.isPrincipal()) {
+                return c;
+            }
+        }
+        return cityList.get(0);
+    }
+
     private void buscarFavorita(List<City> cityList, String defecto) {
-        for(City c:cityList){
-            Log.d("buscarFavorita",c.getLocation().getName());
+        for (City c : cityList) {
+            Log.d("buscarFavorita", c.getLocation().getName() + " - " + c.getId());
+
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        String cityName = sharedPreferences.getString(Setting_Siagu.USERCITY, "Ciudad");
+        mRepository.setCityName(cityName, null);
     }
 
     private void forecastButtonConfig() {
@@ -121,13 +127,13 @@ public class HomeFragment extends Fragment implements OnReposLoadedListener {
         foreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(prefCity!=null) {
+                if (prefCity != null) {
                     Intent intent = new Intent(getActivity(), ForecastActivity.class);
                     String coord = prefCity.getLocation().getLat().toString() + "," + prefCity.getLocation().getLon().toString();
                     intent.putExtra("Coord", coord);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(getContext(),"No disponible sin internet", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "No disponible sin internet", Toast.LENGTH_SHORT).show();
                 }
             }
         });

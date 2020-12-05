@@ -8,4 +8,7 @@
     <color name="colorAccent">#F9AD41</color>
     <color name="colorPrimary">#807059</color>
     <color name="colorPrimaryDark">#666</color>
+    <color name="Redcancel">#ff0000</color>
+    <color name="GreenAccept">#00FF00</color>
+
     </resources>

@@ -2,7 +2,9 @@ package es.unex.giiis.asee.siagu;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,48 +31,49 @@ public class City_Detail extends AppCompatActivity {
     private boolean mContenido = false;
     private CityDataBase mDataBase;
     private View mView;
+    private City_Detail mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_detail);
+        mContext = this;
 
 
-
-        String coorLat=null;
-        String coorLong=null;
+        String coorLat = null;
+        String coorLong = null;
 
         try {
             coorLat = getIntent().getSerializableExtra("Lat").toString();
             coorLong = getIntent().getSerializableExtra("Lon").toString();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
 
         }
 
-        if(coorLat==null||coorLong==null) {
+        if (coorLat == null || coorLong == null) {
             long idCity = (long) getIntent().getSerializableExtra("Id");
             //Obtenemos del dao
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    mContenido=true;
+                    mContenido = true;
                     mDataBase = CityDataBase.getInstance(getBaseContext());
-                    List <City> list=mDataBase.getDao().getAll();
-                    cityToShow= obtenerElementoPorId(list,idCity);
-                    Log.d("cityToShow","City with iD: "+cityToShow.toString());
-                    runOnUiThread(() -> SetCityData(cityToShow));
+                    List<City> list = mDataBase.getDao().getAll();
+                    cityToShow = obtenerElementoPorId(list, idCity);
+                    Log.d("cityToShow", "City with iD: " + cityToShow.toString());
 
+                    runOnUiThread(() -> SetCityData(cityToShow));
                     botonFavAddDelete();
 
                 }
             });
 
-        }else {
+        } else {
             String coorCity = coorLat + "," + coorLong;
             Log.d("CityDetail", "Coordinates: " + coorLat + " " + coorLong);
             procesadoPorBusqueda(coorCity);
         }
+
 
         forecastButtonConfig();
 
@@ -78,9 +81,17 @@ public class City_Detail extends AppCompatActivity {
 
     }
 
+    private City buscarFavorita(List<City> list) {
+        for (City c : list) {
+            if (c.isPrincipal())
+                return c;
+        }
+        return null;
+    }
+
     private void configuracionDeAppBar() {
         ActionBar bar = getSupportActionBar();
-        if(bar != null){
+        if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setTitle("Detalles del clima");
         }
@@ -93,8 +104,8 @@ public class City_Detail extends AppCompatActivity {
     }
 
     private City obtenerElementoPorId(List<City> list, long idCity) {
-        for(City elm:list){
-            if(elm.getId()==idCity){
+        for (City elm : list) {
+            if (elm.getId() == idCity) {
                 return elm;
             }
         }
@@ -127,9 +138,6 @@ public class City_Detail extends AppCompatActivity {
                         botonFavAddDelete();
 
 
-
-
-
                     }
                 });
             }
@@ -140,15 +148,22 @@ public class City_Detail extends AppCompatActivity {
         Button butFav = findViewById(R.id.favIco);
 
         runOnUiThread(() -> {
-            if (mContenido) butFav.setText(R.string.buttonEliminar);
-            else butFav.setText("Añadir a la lista");
+            if (mContenido) {
+                butFav.setText(R.string.buttonEliminar);
+                botonRojo(butFav);
+            } else {
+                butFav.setText("Añadir a la lista");
+                botonVerde(butFav);
+
+            }
         });
 
         butFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mContenido) {
-                    //boton rojo
+                    //boton
+                    botonVerde(butFav);
 
                     Log.d("CityDetail", "Borrando de DAO");
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -160,7 +175,8 @@ public class City_Detail extends AppCompatActivity {
                     });
 
                 } else {
-                    //boton gris
+                    //boton verde
+                    botonRojo(butFav);
 
                     Log.d("CityDetail", "Insertando");
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -178,14 +194,24 @@ public class City_Detail extends AppCompatActivity {
         });
     }
 
+    private void botonVerde(Button butFav) {
+        butFav.setBackgroundResource(R.drawable.custom_button_border_accept);
+        butFav.setPadding(20, 10, 20, 10);
+    }
+
+    private void botonRojo(Button butFav) {
+        butFav.setBackgroundResource(R.drawable.custom_button_border_cancel);
+        butFav.setPadding(20, 10, 20, 10);
+    }
+
     private void forecastButtonConfig() {
         Button foreButton = this.findViewById(R.id.buttonForecastCityDetail);
         foreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(City_Detail.this, ForecastActivity.class);
-                String coord=cityToShow.getLocation().getLat().toString()+","+cityToShow.getLocation().getLon().toString();
-                intent.putExtra("Coord",coord);
+                String coord = cityToShow.getLocation().getLat().toString() + "," + cityToShow.getLocation().getLon().toString();
+                intent.putExtra("Coord", coord);
                 startActivity(intent);
             }
         });
@@ -234,7 +260,7 @@ public class City_Detail extends AppCompatActivity {
 
         TextView viewDay = findViewById(R.id.viewDay);
         viewDay.setText(city.getCurrent().getCondition().getText());
-        Log.d("CurrentCityDetail",city.getCurrent().getCondition().getText());
+        Log.d("CurrentCityDetail", city.getCurrent().getCondition().getText());
 
         TextView viewTemperature = findViewById(R.id.viewTemperature);
         viewTemperature.setText(city.getCurrent().getTempC().toString() + " º");
@@ -256,7 +282,7 @@ public class City_Detail extends AppCompatActivity {
 
         ImageView imageView = findViewById(R.id.imageWheater);
         String tiempo = city.getCurrent().getCondition().getText();
-        int source=imageTiempo(tiempo);
+        int source = imageTiempo(tiempo);
         imageView.setImageResource(source);
 
     }

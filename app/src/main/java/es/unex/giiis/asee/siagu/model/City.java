@@ -37,6 +37,13 @@ public class City implements Serializable {
     @Ignore
     private Forecast forecast;
 
+    @SerializedName("principal")
+    @Expose
+    private boolean principal;
+
+
+
+
     //para el conversor util.searchCity2City
     @Ignore
     public City(String name, String region, String country, Double lat, Double lon) {
@@ -47,12 +54,14 @@ public class City implements Serializable {
         location.setLat(lat);
         location.setLon(lon);
         current=new Current();
+        principal = false;
     }
 
     public City(long id){
         this.id=id;
         location = new Location();
         current = new Current();
+        principal = false;
     }
 
     @Ignore
@@ -82,6 +91,14 @@ public class City implements Serializable {
 
     public Forecast getForecast() {
         return forecast;
+    }
+
+    public void setPrincipal(boolean principal) {
+        this.principal = principal;
+    }
+
+    public boolean isPrincipal() {
+        return principal;
     }
 
     public City setForecast(Forecast forecast) {

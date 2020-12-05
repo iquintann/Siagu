@@ -34,14 +34,24 @@ public class CityRepository {
     private final CityNewtworkDataSource cityNewtworkDataSource;
     private final AppExecutors appExecutors = AppExecutors.getInstance();
 
+
+    //Searccity
+    private boolean busqueda = false;
+
     //Es el nombre que al cambiarlo se desencadena
     //private final MutableLiveData<String> userFilterLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> cityFilterLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> actualizateLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> citySearchFilterLiveData = new MutableLiveData<>();
 
     private final Map<String, Long> lastUpdateTimeMillisMap = new HashMap<>();
     private static final long MIN_TIME_FROM_LAST_FETCH_MILLIS = 60000;
 
+    /**
+     * Constructor para HomeFragment y CityListFragment
+     * @param repoDao
+     * @param repoNetworkDataSource
+     */
     private CityRepository(CityItemDao repoDao, CityNewtworkDataSource repoNetworkDataSource) {
         cityDAO = repoDao;
         cityNewtworkDataSource = repoNetworkDataSource;
@@ -57,18 +67,40 @@ public class CityRepository {
                     @Override
                     public void run() {
                         Log.d("OnChange","executing");
-                        if(cityList.size()>0){
+                        if(cityList.size()>0) {
                             List<City> daoList = cityDAO.getAll();
 
-                            Log.d("OnChange","actualizando ciudad");
-                            if(!ciudadContenidaEnLista(daoList,cityList.get(0))){
-                                Log.d("OnChange","ciudad no encontrada insertando");
+                            Log.d("OnChange", "actualizando ciudad");
+                            City cityContain = ciudadContenidaEnLista(daoList, cityList.get(0));
+                            if (cityContain == null) {
+                                Log.d("OnChange", "ciudad no encontrada insertando");
                                 //Significa que este elemento no existe en el DAO y lo implmentamos
+                                City newCi = cityList.get(0);
+                                newCi.setPrincipal(true);
                                 cityDAO.insert(cityList.get(0));
+
+                                Log.d("OnChange", "ciudad no encontrada insertada");
+                                City actuPrincipal = obtenerPrincipal(daoList);
+
+                                if(actuPrincipal!=null){
+                                    actuPrincipal.setPrincipal(false);
+                                    cityDAO.update(actuPrincipal);
+                                }
+                            } else {
+                                City actuPrincipal = obtenerPrincipal(daoList);
+
+                                if(actuPrincipal!=null){
+                                    actuPrincipal.setPrincipal(false);
+                                    cityDAO.update(actuPrincipal);
+                                }
+
+                                Log.d("OnChange", "Ciudad ant p:" + actuPrincipal);
+                                cityContain.setPrincipal(true);
+                                Log.d("OnChange", "Ciudad ahora p:" + cityContain);
+
+                                cityDAO.update(cityContain);
+
                             }
-                        }else{
-                            Log.d("OnChange","ciudad no encontrada insertando");
-                            cityDAO.insert(cityList.get(0));
                         }
                     }
                 });
@@ -77,17 +109,29 @@ public class CityRepository {
         });
     }
 
-    private boolean ciudadContenidaEnLista (List<City> cityList, City city){
+    private City obtenerPrincipal(List<City> daoList) {
+        for(City c:daoList){
+            if(c.isPrincipal()){
+                Log.d("ciudadContenidaEnLista","Ciudad contenida");
+                return c;
+            }
+        }
+        Log.d("ciudadContenidaEnLista","Ciudad NO contenida");
+        return null;
+    }
+
+
+    private City ciudadContenidaEnLista (List<City> cityList, City city){
         boolean contenida=false;
         for(City c:cityList){
             if(c.equalCity(city)){
                 Log.d("ciudadContenidaEnLista","Ciudad contenida");
-                return true;
+                return c;
             }
 
         }
         Log.d("ciudadContenidaEnLista","Ciudad NO contenida");
-        return contenida;
+        return null;
     };
 
     public synchronized static CityRepository getInstance(CityItemDao dao, CityNewtworkDataSource nds) {
@@ -111,6 +155,21 @@ public class CityRepository {
         });
     }
 
+    //Cambio el nombre de la busqueda
+    public void setCitySearch(String citySearchName) {
+        busqueda = true;
+        Log.d("Cityrepository","Cambio el nombre");
+        citySearchFilterLiveData.setValue(citySearchName);
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            doFetchSearchCity(citySearchName);
+            /*if (isFetchSearchNeeded(citySearchName)) {
+                Log.d("Cityrepository","Hago el cambio");
+                doFetchSearchCity(citySearchName);
+            }*/
+        });
+        busqueda = false;
+    }
+
     public void setActualizateLiveData(String actualizate){
         Log.d("Cityrepository","Cambio la actualizacion");
         actualizateLiveData.setValue(actualizate);
@@ -124,6 +183,14 @@ public class CityRepository {
             cityNewtworkDataSource.fetchRepos(cityName);
             lastUpdateTimeMillisMap.put(cityName, System.currentTimeMillis());
         });
+    }
+
+    public void doFetchSearchCity(String citySearch){
+        Log.d("Cityrepository", "Buscando ciudades en aAPI");
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            //apiService.deleteReposByUser(username);
+            cityNewtworkDataSource.fetchCitySearch(citySearch);
+            });
     }
 
     /**
@@ -162,6 +229,19 @@ public class CityRepository {
         // - Implement cache policy: When time has passed or no repos in cache
         return !estaEnBD || timeFromLastFetch > MIN_TIME_FROM_LAST_FETCH_MILLIS;
 
+    }
+
+    /**
+     * Comprobamos si es necesario actualizar
+     * @param cityName
+     * @return
+     */
+    private boolean isFetchSearchNeeded(String cityName){
+        Long lastFetchTimeMillis = lastUpdateTimeMillisMap.get(cityName);
+        lastFetchTimeMillis = lastFetchTimeMillis == null ? 0L : lastFetchTimeMillis;
+        //Calculo del tiempo desde cuando no se actualiza
+        long timeFromLastFetch = System.currentTimeMillis() - lastFetchTimeMillis;
+        return timeFromLastFetch > MIN_TIME_FROM_LAST_FETCH_MILLIS;
     }
 
     //TODO PROVISIONAL llevarmelo a uti o a otro lado

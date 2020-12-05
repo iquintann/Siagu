@@ -9,6 +9,7 @@ import java.util.List;
 
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
 import es.unex.giiis.asee.siagu.api_runable.CityNetworkLoaderRunnable;
+import es.unex.giiis.asee.siagu.api_runable.CityNetworkSearchCityRunnable;
 import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.model.City;
 
@@ -50,4 +51,22 @@ public class CityNewtworkDataSource {
                     }
                 }, null, cityName));
     }
+
+    /**
+     * Obtiene de la API las ciudades
+     *
+     */
+    public void fetchCitySearch(String cityName) {
+        Log.d("Cityrepository", "Obteniendo elemento de la API con nombre "+cityName);
+        // Get gata from network and pass it to LiveData
+        AppExecutors.getInstance().networkIO().execute(new CityNetworkSearchCityRunnable(
+                new OnReposLoadedListener() {
+                    @Override
+                    public void onReposLoaded(List<City> cityList) {
+                        Log.d("Cityrepository",""+cityList.get(0));
+                        mDownloadedCities.postValue(cityList);
+                    }
+                }, cityName));
+    }
+
 }

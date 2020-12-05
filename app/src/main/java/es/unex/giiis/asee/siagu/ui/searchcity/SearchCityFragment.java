@@ -50,7 +50,6 @@ public class SearchCityFragment extends Fragment {
         mAdapter = new CityAdapter(new CityAdapter.OnCityClickListener() {
             @Override
             public void onItemClick(City item) {
-                Snackbar.make(getView(),"Item "+item+" clicked!" ,Snackbar.LENGTH_LONG).show();
                 //lanzar un intent a una nueva actividad con los datos de la seleccionada + petición api
                 Intent intent= new Intent(getActivity(), City_Detail.class);
                 intent.putExtra("Lat", item.getLocation().getLat());

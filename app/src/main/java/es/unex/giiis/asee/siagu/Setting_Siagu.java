@@ -12,13 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
+
 public class Setting_Siagu extends AppCompatActivity {
 
     private Setting_Siagu context;
     public static final String USERNAME = "USERNAME";
     public static final String USERDATA = "USERDATA";
     public static final String USERCITY = "USERCITY";
-    public static final String PREFID = "USERID";
+    public static final String PREFCITY = "PREFCITY";
 
 
     @Override
@@ -45,13 +47,22 @@ public class Setting_Siagu extends AppCompatActivity {
             public void onClick(View v) {
                 String name=editName.getText().toString();
                 String city=editCity.getText().toString();
+                if(city.equals("")){
+                    city="Madrid";
+                }
 
                 SharedPreferences sharedPref = getSharedPreferences(USERDATA,Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(USERNAME, name);
                 editor.putString(USERCITY, city);
-                editor.putInt(PREFID,0);
                 editor.commit();
+
+                killActivity();
+
+
+            }
+
+            private void killActivity() {
                 finish();
             }
         });

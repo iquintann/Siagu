@@ -27,6 +27,7 @@ public class Util {
     public static int imageTiempo(String tiempo) {
         int source = 0;
         switch (tiempo) {
+            case "Niebla moderada":
             case "Niebla helada":
             case "Neblina":
                 source = R.drawable.icw_fog;
@@ -37,6 +38,7 @@ public class Util {
             case "Despejado":
                 source = R.drawable.icw_sunny_clear;
                 break;
+            case "Ligeras lluvias":
             case "Ligeras precipitaciones":
                 source = R.drawable.icw_rainny_low;
                 break;
