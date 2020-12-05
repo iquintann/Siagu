@@ -13,14 +13,14 @@ import es.unex.giiis.asee.siagu.model.Forecastday;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ReposNetworkForescast implements Runnable {
+public class CityNetworkForescast implements Runnable {
 
     private final OnReposLoadedListener mOnReposLoadedListener;
     private Context mContext;
     private String mCity;
     private int daysForecast;
 
-    public ReposNetworkForescast(OnReposLoadedListener mOnReposLoadedListener, Context context, String city, int days) {
+    public CityNetworkForescast(OnReposLoadedListener mOnReposLoadedListener, Context context, String city, int days) {
         this.mOnReposLoadedListener = mOnReposLoadedListener;
         mContext = context;
         mCity = city;

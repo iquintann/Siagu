@@ -17,16 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import es.unex.giiis.asee.siagu.City_Detail;
-import es.unex.giiis.asee.siagu.MainActivity;
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
 import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.R;
-import es.unex.giiis.asee.siagu.api_runable.ReposNetworkSearchCityRunnable;
+import es.unex.giiis.asee.siagu.api_runable.CityNetworkSearchCityRunnable;
 import es.unex.giiis.asee.siagu.model.City;
 
 public class SearchCityFragment extends Fragment {
@@ -80,7 +78,7 @@ public class SearchCityFragment extends Fragment {
                 mAdapter.clear();
 
                 String textoBusqueda= cityText.getText().toString();
-                AppExecutors.getInstance().networkIO().execute(new ReposNetworkSearchCityRunnable((new OnReposLoadedListener() {
+                AppExecutors.getInstance().networkIO().execute(new CityNetworkSearchCityRunnable((new OnReposLoadedListener() {
                     @Override
                     public void onReposLoaded(List<City> cityList) {
                         mCityList.addAll(cityList);

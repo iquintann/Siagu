@@ -50,6 +50,7 @@ public class Setting_Siagu extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(USERNAME, name);
                 editor.putString(USERCITY, city);
+                editor.putInt(PREFID,0);
                 editor.commit();
                 finish();
             }

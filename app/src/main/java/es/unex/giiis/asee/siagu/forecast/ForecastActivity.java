@@ -15,7 +15,7 @@ import java.util.List;
 import es.unex.giiis.asee.siagu.R;
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
 import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
-import es.unex.giiis.asee.siagu.api_runable.ReposNetworkForescast;
+import es.unex.giiis.asee.siagu.api_runable.CityNetworkForescast;
 import es.unex.giiis.asee.siagu.model.City;
 import es.unex.giiis.asee.siagu.model.Forecastday;
 
@@ -65,7 +65,7 @@ public class ForecastActivity extends AppCompatActivity {
 
         //LLamamiento a la API
         //Lo maximo que devuelve la API es 3 dias consecutivo contado desde hoy
-        AppExecutors.getInstance().networkIO().execute(new ReposNetworkForescast((new OnReposLoadedListener() {
+        AppExecutors.getInstance().networkIO().execute(new CityNetworkForescast((new OnReposLoadedListener() {
             @Override
             public void onReposLoaded(List<City> cityList) {
                 Log.d("Forecast", "Cargado");

@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.siagu.roomDB;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -24,10 +25,15 @@ public interface CityItemDao {
     @Query("DELETE FROM city")
     public void deleteAll();
 
+
+
     @Update
     public int update(City city);
 
 
     @Query("DELETE FROM city WHERE id = :userId")
     abstract void deleteById(long userId);
-    }
+
+    @Query("SELECT * FROM city")
+    LiveData<List<City>> getAllLiveData();
+}

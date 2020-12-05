@@ -15,7 +15,7 @@ import java.util.List;
 
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
 import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
-import es.unex.giiis.asee.siagu.api_runable.ReposNetworkLoaderRunnable;
+import es.unex.giiis.asee.siagu.api_runable.CityNetworkLoaderRunnable;
 import es.unex.giiis.asee.siagu.forecast.ForecastActivity;
 import es.unex.giiis.asee.siagu.model.City;
 import es.unex.giiis.asee.siagu.roomDB.CityDataBase;
@@ -104,7 +104,7 @@ public class City_Detail extends AppCompatActivity {
     private void procesadoPorBusqueda(String coorCity) {
 
         //Carga la ciudad que estamos buscando
-        AppExecutors.getInstance().networkIO().execute(new ReposNetworkLoaderRunnable((new OnReposLoadedListener() {
+        AppExecutors.getInstance().networkIO().execute(new CityNetworkLoaderRunnable((new OnReposLoadedListener() {
             @Override
             public void onReposLoaded(List<City> cityList) {
                 cityToShow = cityList.get(0);

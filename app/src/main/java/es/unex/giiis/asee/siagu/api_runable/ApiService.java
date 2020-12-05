@@ -1,5 +1,7 @@
 package es.unex.giiis.asee.siagu.api_runable;
 
+import androidx.room.Insert;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,8 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+
+import static androidx.room.OnConflictStrategy.REPLACE;
 
 public interface ApiService {
     //La estructura de ejemplo para current city Caceres lenguaje español
@@ -22,4 +26,5 @@ public interface ApiService {
 
     @GET("forecast.json")
     Call <City> forecastCity(@Query("key") String key, @Query("q") String city, @Query("lang") String lang, @Query("days") String days);
+
 }

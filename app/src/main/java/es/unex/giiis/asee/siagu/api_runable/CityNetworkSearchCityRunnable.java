@@ -11,12 +11,12 @@ import es.unex.giiis.asee.siagu.model.SearchCity;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ReposNetworkSearchCityRunnable implements Runnable {
+public class CityNetworkSearchCityRunnable implements Runnable {
 
     private final OnReposLoadedListener mOnReposLoadedListener;
     private final String mTextSearch;
 
-    public ReposNetworkSearchCityRunnable(OnReposLoadedListener onReposLoadedListener, String textSearch){
+    public CityNetworkSearchCityRunnable(OnReposLoadedListener onReposLoadedListener, String textSearch){
         mOnReposLoadedListener=onReposLoadedListener;
         mTextSearch=textSearch;
     }
