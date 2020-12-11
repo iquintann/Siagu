@@ -14,8 +14,13 @@ public class CurrentConverter  {
         current.getLastUpdated()+","+
         current.getTempC()+","+
         current.getTempF()+","+
-        current.getIsDay()+","+
-        current.getCondition().toString()+","+
+        current.getIsDay()+",";
+        if (current.getCondition() == null) {
+            outChar = outChar + "Condition{text='Despejado'; icon=''; code=0},";
+        }else {
+            outChar = outChar + current.getCondition().toString() + ",";
+        }
+        outChar=outChar+
         current.getWindMph()+","+
         current.getWindKph()+","+
         current.getWindDegree()+","+
@@ -33,6 +38,8 @@ public class CurrentConverter  {
         current.getUv()+","+
         current.getGustMph()+","+
         current.getGustKph();
+
+
 
         return outChar;
     }

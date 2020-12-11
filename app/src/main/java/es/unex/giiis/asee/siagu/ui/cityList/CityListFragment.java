@@ -74,6 +74,9 @@ public class CityListFragment extends Fragment implements OnReposLoadedListener 
                 Snackbar.make(getView(), "Item " + item.getLocation().getName() + " clicked!", Snackbar.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), City_Detail.class);
                 intent.putExtra("Id", item.getId());
+                intent.putExtra("IDDAO",item.getId());
+                String nombreCiuduad = item.getLocation().getName()+", "+item.getLocation().getRegion()+", "+item.getLocation().getCountry();
+                intent.putExtra("CityName",nombreCiuduad);
                 startActivity(intent);
             }
         });
@@ -90,7 +93,7 @@ public class CityListFragment extends Fragment implements OnReposLoadedListener 
             }
         });
 
-        //mRepository
+        //mRepositorycityName = getIntent().getSerializableExtra("CityName").toString();
         mRepository = CityRepository.getInstance(CityDataBase.getInstance(getContext()).getDao(), CityNewtworkDataSource.getInstance());
         mRepository.getCurrentRepos().observe((LifecycleOwner) getContext(), this::onReposLoaded);
         sharedPreferences = getContext().getSharedPreferences(Setting_Siagu.USERDATA, Context.MODE_PRIVATE);
@@ -107,7 +110,8 @@ public class CityListFragment extends Fragment implements OnReposLoadedListener 
         mAdapter.clear();
         for (City c : cityList) {
             Log.d("CityList", "City: " + c);
-            mAdapter.add(c);
+            if(c.isGuardado())
+                mAdapter.add(c);
         }
     }
 
@@ -115,25 +119,6 @@ public class CityListFragment extends Fragment implements OnReposLoadedListener 
     @Override
     public void onResume() {
         super.onResume();
-        /*mAdapter.clear();
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-
-                CityDataBase dataBase = CityDataBase.getInstance(mContext);
-                mCityList = dataBase.getDao().getAll();
-
-                if (mCityList != null) {
-                    //necesario hacerlo desde hilo rpincipal
-                    getActivity().runOnUiThread(() -> {
-                        for (City c : mCityList) {
-                            Log.d("CityList", "City: " + c);
-                            mAdapter.add(c);
-                        }
-                    });
-                }
-            }
-        });*/
 
     }
 

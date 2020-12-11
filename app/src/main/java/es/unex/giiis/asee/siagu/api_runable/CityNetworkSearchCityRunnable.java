@@ -1,5 +1,7 @@
 package es.unex.giiis.asee.siagu.api_runable;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class CityNetworkSearchCityRunnable implements Runnable {
                     mOnReposLoadedListener.onReposLoaded(cityList);
                 }
             });
-
+            Log.d("SearchCityRunnable","Devuelve"+cityList);
         } catch (IOException e) {
             e.printStackTrace();
         }

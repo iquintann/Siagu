@@ -43,12 +43,9 @@ public class CityNewtworkDataSource {
         Log.d("Cityrepository", "Obteniendo elemento de la API con nombre "+cityName);
         // Get gata from network and pass it to LiveData
         AppExecutors.getInstance().networkIO().execute(new CityNetworkLoaderRunnable(
-                new OnReposLoadedListener() {
-                    @Override
-                    public void onReposLoaded(List<City> cityList) {
-                        Log.d("Cityrepository",""+cityList.get(0));
-                        mDownloadedCities.postValue(cityList);
-                    }
+                cityList -> {
+                    Log.d("Cityrepository",""+cityList.get(0));
+                    mDownloadedCities.postValue(cityList);
                 }, null, cityName));
     }
 
@@ -60,12 +57,9 @@ public class CityNewtworkDataSource {
         Log.d("Cityrepository", "Obteniendo elemento de la API con nombre "+cityName);
         // Get gata from network and pass it to LiveData
         AppExecutors.getInstance().networkIO().execute(new CityNetworkSearchCityRunnable(
-                new OnReposLoadedListener() {
-                    @Override
-                    public void onReposLoaded(List<City> cityList) {
-                        Log.d("Cityrepository",""+cityList.get(0));
-                        mDownloadedCities.postValue(cityList);
-                    }
+                cityList -> {
+                    Log.d("CityrepositorySearch",""+cityList.toString());
+                    mDownloadedCities.postValue(cityList);
                 }, cityName));
     }
 

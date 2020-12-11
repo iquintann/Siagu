@@ -2,9 +2,8 @@ package es.unex.giiis.asee.siagu;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +14,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import es.unex.giiis.asee.siagu.Repository.CityNewtworkDataSource;
+import es.unex.giiis.asee.siagu.Repository.CityRepository;
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
 import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.api_runable.CityNetworkLoaderRunnable;
@@ -23,15 +24,19 @@ import es.unex.giiis.asee.siagu.model.City;
 import es.unex.giiis.asee.siagu.roomDB.CityDataBase;
 
 import static es.unex.giiis.asee.siagu.Util.imageTiempo;
+import static java.lang.Long.parseLong;
 
 
-public class City_Detail extends AppCompatActivity {
+public class City_Detail extends AppCompatActivity implements OnReposLoadedListener {
 
     private City cityToShow;
     private boolean mContenido = false;
     private CityDataBase mDataBase;
     private View mView;
     private City_Detail mContext;
+    private CityRepository mRepository;
+    private long idCityItent;
+    private String cityName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,41 +48,39 @@ public class City_Detail extends AppCompatActivity {
         String coorLat = null;
         String coorLong = null;
 
-        try {
-            coorLat = getIntent().getSerializableExtra("Lat").toString();
-            coorLong = getIntent().getSerializableExtra("Lon").toString();
-        } catch (Exception e) {
-
-        }
-
-        if (coorLat == null || coorLong == null) {
-            long idCity = (long) getIntent().getSerializableExtra("Id");
-            //Obtenemos del dao
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    mContenido = true;
-                    mDataBase = CityDataBase.getInstance(getBaseContext());
-                    List<City> list = mDataBase.getDao().getAll();
-                    cityToShow = obtenerElementoPorId(list, idCity);
-                    Log.d("cityToShow", "City with iD: " + cityToShow.toString());
-
-                    runOnUiThread(() -> SetCityData(cityToShow));
-                    botonFavAddDelete();
-
-                }
-            });
-
-        } else {
-            String coorCity = coorLat + "," + coorLong;
-            Log.d("CityDetail", "Coordinates: " + coorLat + " " + coorLong);
-            procesadoPorBusqueda(coorCity);
-        }
+        //Obtenemos instancia del repositorio
+        mRepository = CityRepository.getInstance(CityDataBase.getInstance(this).getDao(), CityNewtworkDataSource.getInstance());
+        mRepository.getCurrentRepos().observe((LifecycleOwner) this, this::onReposLoaded);
+        mRepository.setBusqueda(true);
 
 
-        forecastButtonConfig();
+        idCityItent = parseLong(getIntent().getSerializableExtra("IDDAO").toString());
+        cityName = getIntent().getSerializableExtra("CityName").toString();
+        Log.d("Detail", "ID del la ciudad" + idCityItent);
+
+        mRepository.actualizarCiudad(idCityItent);
 
         configuracionDeAppBar();
+
+    }
+
+    @Override
+    public void onReposLoaded(List<City> cityList) {
+        Log.d("CityDetail_OnRepost", "Recargado");
+
+        Log.d("COMPCAD",cityName);
+        for (City c : cityList) {
+            long id=c.getId();
+            String nombreCiuduad = c.getLocation().getName()+", "+c.getLocation().getRegion()+", "+c.getLocation().getCountry();
+            Log.d("COMPCAD",nombreCiuduad);
+            if (nombreCiuduad.equals(cityName)) {
+                Log.d("CityDetail_OnRepost", c.getLocation().getName() + " contenida y mostrando");
+                SetCityData(c);
+                mContenido=c.isGuardado();
+                cityToShow=c;
+                botonFavAddDelete();
+            }
+        }
 
     }
 
@@ -133,6 +136,7 @@ public class City_Detail extends AppCompatActivity {
 
                         //Esta contenido la ciudad que se ha metido en nuestro DAO?
                         mContenido = dentroDeLista(cityList, cityToShow);
+                        mContenido = cityToShow.isGuardado();
                         Log.d("CityDetail", mContenido + " en DAO");
 
                         botonFavAddDelete();
@@ -166,26 +170,32 @@ public class City_Detail extends AppCompatActivity {
                     botonVerde(butFav);
 
                     Log.d("CityDetail", "Borrando de DAO");
-                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    mRepository.setCityGuardada(cityToShow.getId(),false);
+                    /*AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
                             mDataBase = CityDataBase.getInstance(getBaseContext());
-                            mDataBase.getDao().deleteById(cityToShow.getId());
+                            cityToShow.setGuardado(false);
+                            if (mDataBase.getDao().update(cityToShow) != 1)
+                                mDataBase.getDao().deleteById(cityToShow.getId());
                         }
-                    });
+                    });*/
 
                 } else {
                     //boton verde
                     botonRojo(butFav);
 
                     Log.d("CityDetail", "Insertando");
-                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    mRepository.setCityGuardada(cityToShow.getId(),true);
+                    /*AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
                             mDataBase = CityDataBase.getInstance(getBaseContext());
-                            mDataBase.getDao().insert(cityToShow);
+                            cityToShow.setGuardado(true);
+                            if (mDataBase.getDao().update(cityToShow) != 1)
+                                mDataBase.getDao().insert(cityToShow);
                         }
-                    });
+                    });*/
                 }
                 mContenido = !mContenido;
                 if (mContenido) butFav.setText(R.string.buttonEliminar);
@@ -286,6 +296,7 @@ public class City_Detail extends AppCompatActivity {
         imageView.setImageResource(source);
 
     }
+
 
 
 }

@@ -29,7 +29,7 @@ import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.model.City;
 import es.unex.giiis.asee.siagu.roomDB.CityDataBase;
 
-public class MainActivity extends AppCompatActivity implements OnReposLoadedListener {
+public class MainActivity extends AppCompatActivity {
 
     public static final int MENU_SETTING = Menu.FIRST;
     private AppBarConfiguration mAppBarConfiguration;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements OnReposLoadedList
         NavigationUI.setupWithNavController(navigationView, navController);
 
         mRepository = CityRepository.getInstance(CityDataBase.getInstance(this).getDao(), CityNewtworkDataSource.getInstance());
-        mRepository.getCurrentRepos().observe((LifecycleOwner) this, this::onReposLoaded);
+
 
         //Carga de los datos ciudad por defecto
         sharedPreferences = this.getSharedPreferences(Setting_Siagu.USERDATA, Context.MODE_PRIVATE);
@@ -113,8 +113,4 @@ public class MainActivity extends AppCompatActivity implements OnReposLoadedList
                 || super.onSupportNavigateUp();
     }
 
-    @Override
-    public void onReposLoaded(List<City> cityList) {
-
-    }
 }

@@ -1,6 +1,8 @@
 
 package es.unex.giiis.asee.siagu.model;
 
+import android.util.Log;
+
 import androidx.room.Entity;
 
 import com.google.gson.annotations.Expose;
@@ -21,6 +23,7 @@ public class Condition {
 
     public Condition(String toString) {
         String  [] cadena=toString.split("'");
+        Log.d("Vector",toString);
         text= cadena[1];
     }
 

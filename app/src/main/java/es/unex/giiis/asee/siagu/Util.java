@@ -38,6 +38,7 @@ public class Util {
             case "Despejado":
                 source = R.drawable.icw_sunny_clear;
                 break;
+            case "Llovizna":
             case "Ligeras lluvias":
             case "Ligeras precipitaciones":
                 source = R.drawable.icw_rainny_low;

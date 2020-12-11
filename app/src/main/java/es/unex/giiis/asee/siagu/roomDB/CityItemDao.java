@@ -25,7 +25,8 @@ public interface CityItemDao {
     @Query("DELETE FROM city")
     public void deleteAll();
 
-
+    @Query("DELETE FROM city WHERE guardado = 0")
+    public int deteleGuardadas();
 
     @Update
     public int update(City city);
@@ -36,4 +37,7 @@ public interface CityItemDao {
 
     @Query("SELECT * FROM city")
     LiveData<List<City>> getAllLiveData();
+
+
+
 }

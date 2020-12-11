@@ -68,6 +68,7 @@ public class HomeFragment extends Fragment implements OnReposLoadedListener {
         //Obtenemos instancia del repositorio
         mRepository = CityRepository.getInstance(CityDataBase.getInstance(getContext()).getDao(), CityNewtworkDataSource.getInstance());
         mRepository.getCurrentRepos().observe((LifecycleOwner) getContext(), this::onReposLoaded);
+        mRepository.setBusqueda(false);
 
 
 

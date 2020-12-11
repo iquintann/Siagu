@@ -41,27 +41,37 @@ public class City implements Serializable {
     @Expose
     private boolean principal;
 
+    @SerializedName("guardado")
+    @Expose
+    private boolean guardado;
 
+    @SerializedName("anadida")
+    @Expose
+    private boolean anadida;
 
 
     //para el conversor util.searchCity2City
     @Ignore
     public City(String name, String region, String country, Double lat, Double lon) {
-        location=new Location();
+        location = new Location();
         location.setName(name);
         location.setRegion(region);
         location.setCountry(country);
         location.setLat(lat);
         location.setLon(lon);
-        current=new Current();
+        current = new Current();
         principal = false;
+        guardado = false;
+        anadida = false;
     }
 
-    public City(long id){
-        this.id=id;
+    public City(long id) {
+        this.id = id;
         location = new Location();
         current = new Current();
         principal = false;
+        guardado = false;
+        anadida = false;
     }
 
     @Ignore
@@ -69,9 +79,13 @@ public class City implements Serializable {
 
     }
 
-    public long getId(){ return this.id; }
+    public long getId() {
+        return this.id;
+    }
 
-    public void setId(long id){ this.id = id; }
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Location getLocation() {
         return location;
@@ -106,33 +120,49 @@ public class City implements Serializable {
         return this;
     }
 
+    public boolean isGuardado() {
+        return guardado;
+    }
+
+    public void setGuardado(boolean guardado) {
+        this.guardado = guardado;
+    }
+
+    public boolean isAnadida() {
+        return guardado;
+    }
+
+    public void setAnadida(boolean anadida) {
+        this.anadida = anadida;
+    }
+
 
     @Ignore
     @Override
     public String toString() {
-        String toReturn="City{" +
-                "name=" + location.getName() +
+        String toReturn = "\nCity{" +
+                "ID=" + getId() +
+                ", name=" + location.getName() +
                 ", region=" + location.getRegion() +
                 ", country=" + location.getCountry() +
-                ", coord={" + location.getLat()+" "+ location.getLon() + "}";
-        toReturn=toReturn+"}";
+                ", coord={" + location.getLat() + " " + location.getLon() + "}";
+        toReturn = toReturn + "}";
         return toReturn;
-                    }
+    }
 
 
     public boolean equalCity(City enter) {
         String thisCity = this.getLocation().getName();
         String paramCity = enter.getLocation().getName();
-        Log.d("equalCity",thisCity+" -- "+paramCity);
+        Log.d("equalCity", thisCity + " -- " + paramCity);
         /*if(thisCity.equals(paramCity))
             return true;*/
-        if(location.getName().equals(enter.getLocation().getName())&&
-                location.getCountry().equals(enter.getLocation().getCountry())&&
+        if (location.getName().equals(enter.getLocation().getName()) &&
+                location.getCountry().equals(enter.getLocation().getCountry()) &&
                 location.getRegion().equals(enter.getLocation().getRegion()))
             return true;
         return false;
     }
-
 
 
 }
