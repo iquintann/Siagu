@@ -8,10 +8,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
-import es.unex.giiis.asee.siagu.vistaModelo.api_runable.AppExecutors;
-import es.unex.giiis.asee.siagu.vistaModelo.api_runable.CityNetworkForescast;
-import es.unex.giiis.asee.siagu.vistaModelo.api_runable.CityNetworkLoaderRunnable;
-import es.unex.giiis.asee.siagu.vistaModelo.api_runable.CityNetworkSearchCityRunnable;
+import es.unex.giiis.asee.siagu.model.api_runable.AppExecutors;
+import es.unex.giiis.asee.siagu.model.api_runable.CityNetworkForescast;
+import es.unex.giiis.asee.siagu.model.api_runable.CityNetworkLoaderRunnable;
+import es.unex.giiis.asee.siagu.model.api_runable.CityNetworkSearchCityRunnable;
 import es.unex.giiis.asee.siagu.model.City;
 
 public class CityNewtworkDataSource {

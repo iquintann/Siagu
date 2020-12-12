@@ -1,4 +1,4 @@
-package es.unex.giiis.asee.siagu.vistaModelo.api_runable;
+package es.unex.giiis.asee.siagu.model.api_runable;
 
 import android.util.Log;
 

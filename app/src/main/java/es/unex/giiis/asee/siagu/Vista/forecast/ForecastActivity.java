@@ -16,10 +16,10 @@ import java.util.List;
 import es.unex.giiis.asee.siagu.R;
 import es.unex.giiis.asee.siagu.vistaModelo.Repository.CityNewtworkDataSource;
 import es.unex.giiis.asee.siagu.vistaModelo.Repository.CityRepository;
-import es.unex.giiis.asee.siagu.vistaModelo.api_runable.OnReposLoadedListener;
+import es.unex.giiis.asee.siagu.model.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.model.City;
 import es.unex.giiis.asee.siagu.model.Forecastday;
-import es.unex.giiis.asee.siagu.vistaModelo.roomDB.CityDataBase;
+import es.unex.giiis.asee.siagu.model.roomDB.CityDataBase;
 
 public class ForecastActivity extends AppCompatActivity implements OnReposLoadedListener {
 

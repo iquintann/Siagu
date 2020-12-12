@@ -1,4 +1,4 @@
-package es.unex.giiis.asee.siagu.vistaModelo.roomDB;
+package es.unex.giiis.asee.siagu.model.roomDB;
 
 import androidx.room.TypeConverter;
 

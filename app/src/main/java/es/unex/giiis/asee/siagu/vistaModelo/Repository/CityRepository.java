@@ -13,13 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import es.unex.giiis.asee.siagu.vistaModelo.api_runable.ApiService;
-import es.unex.giiis.asee.siagu.vistaModelo.api_runable.CityNetworkForescast;
-import es.unex.giiis.asee.siagu.vistaModelo.api_runable.AppExecutors;
-import es.unex.giiis.asee.siagu.vistaModelo.api_runable.OnReposLoadedListener;
+import es.unex.giiis.asee.siagu.model.api_runable.ApiService;
+import es.unex.giiis.asee.siagu.model.api_runable.CityNetworkForescast;
+import es.unex.giiis.asee.siagu.model.api_runable.AppExecutors;
+import es.unex.giiis.asee.siagu.model.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.model.City;
 import es.unex.giiis.asee.siagu.model.Forecastday;
-import es.unex.giiis.asee.siagu.vistaModelo.roomDB.CityItemDao;
+import es.unex.giiis.asee.siagu.model.roomDB.CityItemDao;
 
 
 /**

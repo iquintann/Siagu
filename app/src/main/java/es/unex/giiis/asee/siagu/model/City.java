@@ -13,9 +13,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import es.unex.giiis.asee.siagu.vistaModelo.roomDB.CurrentConverter;
-import es.unex.giiis.asee.siagu.vistaModelo.roomDB.ForecastConverter;
-import es.unex.giiis.asee.siagu.vistaModelo.roomDB.LocationConverter;
+import es.unex.giiis.asee.siagu.model.roomDB.CurrentConverter;
+import es.unex.giiis.asee.siagu.model.roomDB.ForecastConverter;
+import es.unex.giiis.asee.siagu.model.roomDB.LocationConverter;
 
 @Entity(tableName = "city")
 public class City implements Serializable {
