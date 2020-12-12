@@ -6,7 +6,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.Expose;
@@ -14,9 +13,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import es.unex.giiis.asee.siagu.roomDB.CurrentConverter;
-import es.unex.giiis.asee.siagu.roomDB.ForecastConverter;
-import es.unex.giiis.asee.siagu.roomDB.LocationConverter;
+import es.unex.giiis.asee.siagu.vistaModelo.roomDB.CurrentConverter;
+import es.unex.giiis.asee.siagu.vistaModelo.roomDB.ForecastConverter;
+import es.unex.giiis.asee.siagu.vistaModelo.roomDB.LocationConverter;
 
 @Entity(tableName = "city")
 public class City implements Serializable {

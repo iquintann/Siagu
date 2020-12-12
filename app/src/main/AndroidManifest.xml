@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".forecast.ForecastActivity"></activity>
-        <activity android:name=".City_Detail" />
-        <activity android:name=".Setting_Siagu" />
+        <activity android:name=".Vista.forecast.ForecastActivity"></activity>
+        <activity android:name=".Vista.City_Detail" />
+        <activity android:name=".Vista.Setting_Siagu" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Vista.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
