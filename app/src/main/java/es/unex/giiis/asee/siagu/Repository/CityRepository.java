@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.siagu.Repository;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.arch.core.util.Function;
@@ -16,7 +17,9 @@ import es.unex.giiis.asee.siagu.R;
 import es.unex.giiis.asee.siagu.api_runable.ApiService;
 import es.unex.giiis.asee.siagu.api_runable.CityNetworkForescast;
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
+import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.model.City;
+import es.unex.giiis.asee.siagu.model.Forecastday;
 import es.unex.giiis.asee.siagu.roomDB.CityItemDao;
 
 import static es.unex.giiis.asee.siagu.Util.searchCity2City;
@@ -248,6 +251,43 @@ public class CityRepository {
         });
     }
 
+    //TODO
+    public void busquedaForecast(String cityName, Context context, int dias) {
+
+        //LLamamiento a la API
+        //Lo maximo que devuelve la API es 3 dias consecutivo contado desde hoy
+        AppExecutors.getInstance().networkIO().execute(new CityNetworkForescast((new OnReposLoadedListener() {
+            @Override
+            public void onReposLoaded(List<City> cityList) {
+                Log.d("Forecast", "Cargado");
+                //Trocear
+                City mCity = cityList.get(0);
+                List<Forecastday> forecastdayList = mCity.getForecast().getForecastday();
+                List<Forecastday> mForecastList = forecastdayList;
+                AppExecutors.getInstance().networkIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<City> listC = cityDAO.getAll();
+                        for (City c : listC) {
+                            if (c.equalCity(mCity)) {
+                                c.setForecast(mCity.getForecast());
+                                Log.d("busquedaForecast", "Actualizados= " + cityDAO.update(c));
+                            }
+                        }
+                    }
+                });
+
+
+            }
+        }), context, cityName, dias));
+        /*AppExecutors.getInstance().networkIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                cityNewtworkDataSource.fetchForecastCity(cityName,context,dias);
+            }
+        });*/
+    }
+
     /**
      * Database related operations
      **/
@@ -323,8 +363,8 @@ public class CityRepository {
                 for (City c : cList) {
                     if (idCityItent == c.getId()) {
 
-                        String nombreCiuduad = c.getLocation().getName()+", "+c.getLocation().getRegion()+", "+c.getLocation().getCountry();
-                        Log.d("ActualizarCity",c.getId()+ "-"+ nombreCiuduad);
+                        String nombreCiuduad = c.getLocation().getName() + ", " + c.getLocation().getRegion() + ", " + c.getLocation().getCountry();
+                        Log.d("ActualizarCity", c.getId() + "-" + nombreCiuduad);
                         doFetchRepos(nombreCiuduad);
                     }
                 }
@@ -346,5 +386,10 @@ public class CityRepository {
                 }
             }
         });
+    }
+
+
+    public void deleteAll() {
+        AppExecutors.getInstance().networkIO().execute(()-> cityDAO.deleteAll() );
     }
 }

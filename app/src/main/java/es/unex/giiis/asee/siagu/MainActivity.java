@@ -85,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
             case MENU_SETTING+1:
                 Log.d("onOptionsItemSelected","Purgar");
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                mRepository.deleteAll();
+                /*AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
                         CityDataBase.getInstance(getBaseContext()).getDao().deleteAll();
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                         AppExecutors.getInstance().mainThread().execute(() -> mRepository.setCityName(cityName,null));
 
                     }
-                });
+                });*/
                 return true;
 
 

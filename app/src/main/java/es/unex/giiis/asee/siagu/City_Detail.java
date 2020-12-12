@@ -79,6 +79,8 @@ public class City_Detail extends AppCompatActivity implements OnReposLoadedListe
                 mContenido=c.isGuardado();
                 cityToShow=c;
                 botonFavAddDelete();
+                forecastButtonConfig();
+
             }
         }
 

@@ -27,6 +27,10 @@ public class Condition {
         text= cadena[1];
     }
 
+    public Condition() {
+
+    }
+
     public String getText() {
         return text;
     }

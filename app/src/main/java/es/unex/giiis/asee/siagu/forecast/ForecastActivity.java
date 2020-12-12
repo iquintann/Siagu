@@ -2,6 +2,7 @@ package es.unex.giiis.asee.siagu.forecast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,13 +14,16 @@ import android.util.Log;
 import java.util.List;
 
 import es.unex.giiis.asee.siagu.R;
+import es.unex.giiis.asee.siagu.Repository.CityNewtworkDataSource;
+import es.unex.giiis.asee.siagu.Repository.CityRepository;
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
 import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
 import es.unex.giiis.asee.siagu.api_runable.CityNetworkForescast;
 import es.unex.giiis.asee.siagu.model.City;
 import es.unex.giiis.asee.siagu.model.Forecastday;
+import es.unex.giiis.asee.siagu.roomDB.CityDataBase;
 
-public class ForecastActivity extends AppCompatActivity {
+public class ForecastActivity extends AppCompatActivity implements OnReposLoadedListener{
 
     private ForecastListViewModel forecastListViewModel;
     private City mCity;
@@ -30,8 +34,14 @@ public class ForecastActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private ForecastdayAdapter mAdapter;
+
     //Numero de dias, de momento fijo
     private int dias = 3;
+
+    //Repository
+    private CityRepository mRepository;
+
+    private String coordInt;
 
 
     @Override
@@ -56,16 +66,25 @@ public class ForecastActivity extends AppCompatActivity {
 
         mRecyclerView.setAdapter(mAdapter);
 
-        //
-
         //Nombre de la ciudad
         Intent intent = getIntent();
-        String cityName = intent.getStringExtra("Coord");
+        coordInt = intent.getStringExtra("Coord");
+        Log.d("Forecast","Coordenadas a buscar: "+coordInt);
+
+        //-------------------
+        //Obtenemos instancia del repositorio
+        mRepository = CityRepository.getInstance(CityDataBase.getInstance(this).getDao(), CityNewtworkDataSource.getInstance());
+        mRepository.getCurrentRepos().observe((LifecycleOwner) this, this::onReposLoaded);
+        mRepository.setBusqueda(true);
+        mRepository.busquedaForecast(coordInt,this,3);
+        //----------------------
+
+
 
 
         //LLamamiento a la API
         //Lo maximo que devuelve la API es 3 dias consecutivo contado desde hoy
-        AppExecutors.getInstance().networkIO().execute(new CityNetworkForescast((new OnReposLoadedListener() {
+        /*AppExecutors.getInstance().networkIO().execute(new CityNetworkForescast((new OnReposLoadedListener() {
             @Override
             public void onReposLoaded(List<City> cityList) {
                 Log.d("Forecast", "Cargado");
@@ -85,7 +104,7 @@ public class ForecastActivity extends AppCompatActivity {
 
 
             }
-        }), this, cityName, 3));
+        }), this, cityName, 3));*/
 
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
@@ -102,4 +121,28 @@ public class ForecastActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onReposLoaded(List<City> cityList) {
+        for(City c:cityList){
+            String cCoor=c.getLocation().getLat()+","+c.getLocation().getLon();
+            Log.d("Forecast","Coordenadas ciudad "+c.getLocation().getName()+" "+cCoor);
+            if(cCoor.equals(coordInt)){
+                mCity=c;
+            }
+        }
+
+        Log.d("onReposLoaded","Ciudad fore "+mCity.toString());
+        try {
+            List<Forecastday> forecastdayList = mCity.getForecast().getForecastday();
+            mForecastList = forecastdayList;
+            mAdapter.clear();
+            for (Forecastday c : mForecastList) {
+                Log.d("ForecastList", c.getDate());
+                mAdapter.add(c);
+            }
+        }catch (Exception e){
+
+        }
+
+    }
 }

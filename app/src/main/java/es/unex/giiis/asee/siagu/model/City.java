@@ -6,6 +6,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.Expose;
@@ -14,6 +15,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 import es.unex.giiis.asee.siagu.roomDB.CurrentConverter;
+import es.unex.giiis.asee.siagu.roomDB.ForecastConverter;
 import es.unex.giiis.asee.siagu.roomDB.LocationConverter;
 
 @Entity(tableName = "city")
@@ -34,7 +36,7 @@ public class City implements Serializable {
 
     @SerializedName("forecast")
     @Expose
-    @Ignore
+    @TypeConverters(ForecastConverter.class)
     private Forecast forecast;
 
     @SerializedName("principal")
@@ -63,6 +65,7 @@ public class City implements Serializable {
         principal = false;
         guardado = false;
         anadida = false;
+        forecast=new Forecast();
     }
 
     public City(long id) {
@@ -72,6 +75,7 @@ public class City implements Serializable {
         principal = false;
         guardado = false;
         anadida = false;
+        forecast=new Forecast();
     }
 
     @Ignore
@@ -115,9 +119,8 @@ public class City implements Serializable {
         return principal;
     }
 
-    public City setForecast(Forecast forecast) {
+    public void setForecast(Forecast forecast) {
         this.forecast = forecast;
-        return this;
     }
 
     public boolean isGuardado() {

@@ -3,12 +3,18 @@ package es.unex.giiis.asee.siagu.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Forecast {
     @SerializedName("forecastday")
     @Expose
-    private List<Forecastday> forecastday = null;
+    private List<Forecastday> forecastday;
+
+    public Forecast(){
+        forecastday=new ArrayList<>();
+    }
+
 
     public List<Forecastday> getForecastday() {
         return forecastday;

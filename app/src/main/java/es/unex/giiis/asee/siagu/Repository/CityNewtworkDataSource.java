@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.siagu.Repository;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -8,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import es.unex.giiis.asee.siagu.api_runable.AppExecutors;
+import es.unex.giiis.asee.siagu.api_runable.CityNetworkForescast;
 import es.unex.giiis.asee.siagu.api_runable.CityNetworkLoaderRunnable;
 import es.unex.giiis.asee.siagu.api_runable.CityNetworkSearchCityRunnable;
 import es.unex.giiis.asee.siagu.api_runable.OnReposLoadedListener;
@@ -61,6 +63,14 @@ public class CityNewtworkDataSource {
                     Log.d("CityrepositorySearch",""+cityList.toString());
                     mDownloadedCities.postValue(cityList);
                 }, cityName));
+    }
+
+    public void fetchForecastCity(String cityName, Context context, int dias){
+        Log.d("Cityrepository", "Obteniendo elemento de la API con nombre "+cityName);
+        AppExecutors.getInstance().networkIO().execute(new CityNetworkForescast(
+                cityList -> {
+                    mDownloadedCities.postValue(cityList);
+                    },context,cityName,dias));
     }
 
 }
