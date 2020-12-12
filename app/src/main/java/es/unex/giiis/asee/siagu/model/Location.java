@@ -11,28 +11,28 @@ public class Location {
 
     @SerializedName("name")
     @Expose
-    private String name=" ";
+    private String name = " ";
     @SerializedName("region")
     @Expose
-    private String region=" ";
+    private String region = " ";
     @SerializedName("country")
     @Expose
-    private String country=" ";
+    private String country = " ";
     @SerializedName("lat")
     @Expose
-    private Double lat=0.0;
+    private Double lat = 0.0;
     @SerializedName("lon")
     @Expose
-    private Double lon=0.0;
+    private Double lon = 0.0;
     @SerializedName("tz_id")
     @Expose
-    private String tzId="tzId";
+    private String tzId = "tzId";
     @SerializedName("localtime_epoch")
     @Expose
-    private Integer localtimeEpoch=0;
+    private Integer localtimeEpoch = 0;
     @SerializedName("localtime")
     @Expose
-    private String localtime="localtime";
+    private String localtime = "localtime";
 
     public String getName() {
         return name;

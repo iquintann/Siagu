@@ -28,7 +28,8 @@ public class Forecast {
     public String toString() {
         String string="";
         for(Forecastday c:forecastday){
-            string=","+string;
+            string=string+c.getDay().getMaxtempC()
+                    +",";
         }
         return string;
     }

@@ -69,6 +69,7 @@ public class CityNewtworkDataSource {
         Log.d("Cityrepository", "Obteniendo elemento de la API con nombre "+cityName);
         AppExecutors.getInstance().networkIO().execute(new CityNetworkForescast(
                 cityList -> {
+
                     mDownloadedCities.postValue(cityList);
                     },context,cityName,dias));
     }

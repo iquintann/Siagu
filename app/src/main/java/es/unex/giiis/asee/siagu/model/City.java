@@ -158,8 +158,17 @@ public class City implements Serializable {
         String thisCity = this.getLocation().getName();
         String paramCity = enter.getLocation().getName();
         Log.d("equalCity", thisCity + " -- " + paramCity);
+        Log.d("equalCity","Comparando nombres "+location.getName().equals(enter.getLocation().getName()));
+        Log.d("equalCity","Comparando Country "+location.getCountry().equals(enter.getLocation().getCountry()));
+        Log.d("equalCity","Comparando Region "+location.getRegion().equals(enter.getLocation().getRegion()));
         /*if(thisCity.equals(paramCity))
             return true;*/
+        if(!location.getLat().toString().equals("0.0")&&!location.getLon().toString().equals("0.0")&&
+                !enter.getLocation().getLat().toString().equals("0.0")&&!enter.getLocation().getLat().toString().equals("0.0")){
+            if (location.getLat().toString().equals(enter.getLocation().getLat().toString()) &&
+                    location.getLon().toString().equals(enter.getLocation().getLon().toString()))
+                return true;
+        }
         if (location.getName().equals(enter.getLocation().getName()) &&
                 location.getCountry().equals(enter.getLocation().getCountry()) &&
                 location.getRegion().equals(enter.getLocation().getRegion()))

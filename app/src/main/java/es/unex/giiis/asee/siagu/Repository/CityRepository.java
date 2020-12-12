@@ -253,7 +253,7 @@ public class CityRepository {
 
     //TODO
     public void busquedaForecast(String cityName, Context context, int dias) {
-
+        Log.d("ForecastCoor","Coordenadas de busqueda "+cityName);
         //LLamamiento a la API
         //Lo maximo que devuelve la API es 3 dias consecutivo contado desde hoy
         AppExecutors.getInstance().networkIO().execute(new CityNetworkForescast((new OnReposLoadedListener() {
@@ -261,7 +261,11 @@ public class CityRepository {
             public void onReposLoaded(List<City> cityList) {
                 Log.d("Forecast", "Cargado");
                 //Trocear
+                Log.d("Forecast","lista "+ cityList);
                 City mCity = cityList.get(0);
+                Log.d("Forecast","Forecas de 0 elemento "+ mCity.getForecast().toString());
+
+
                 List<Forecastday> forecastdayList = mCity.getForecast().getForecastday();
                 List<Forecastday> mForecastList = forecastdayList;
                 AppExecutors.getInstance().networkIO().execute(new Runnable() {
@@ -271,7 +275,8 @@ public class CityRepository {
                         for (City c : listC) {
                             if (c.equalCity(mCity)) {
                                 c.setForecast(mCity.getForecast());
-                                Log.d("busquedaForecast", "Actualizados= " + cityDAO.update(c));
+                                Log.d("busquedaForecast","hola "+mCity.getForecast().toString());
+                                Log.d("busquedaForecast", "Actualizado "+c.getLocation().getName() +" = " + cityDAO.update(c));
                             }
                         }
                     }

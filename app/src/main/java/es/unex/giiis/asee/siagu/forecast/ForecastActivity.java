@@ -23,7 +23,7 @@ import es.unex.giiis.asee.siagu.model.City;
 import es.unex.giiis.asee.siagu.model.Forecastday;
 import es.unex.giiis.asee.siagu.roomDB.CityDataBase;
 
-public class ForecastActivity extends AppCompatActivity implements OnReposLoadedListener{
+public class ForecastActivity extends AppCompatActivity implements OnReposLoadedListener {
 
     private ForecastListViewModel forecastListViewModel;
     private City mCity;
@@ -69,17 +69,15 @@ public class ForecastActivity extends AppCompatActivity implements OnReposLoaded
         //Nombre de la ciudad
         Intent intent = getIntent();
         coordInt = intent.getStringExtra("Coord");
-        Log.d("Forecast","Coordenadas a buscar: "+coordInt);
+        Log.d("Forecast", "Coordenadas a buscar: " + coordInt);
 
         //-------------------
         //Obtenemos instancia del repositorio
         mRepository = CityRepository.getInstance(CityDataBase.getInstance(this).getDao(), CityNewtworkDataSource.getInstance());
         mRepository.getCurrentRepos().observe((LifecycleOwner) this, this::onReposLoaded);
         mRepository.setBusqueda(true);
-        mRepository.busquedaForecast(coordInt,this,3);
+        mRepository.busquedaForecast(coordInt, this, 3);
         //----------------------
-
-
 
 
         //LLamamiento a la API
@@ -123,26 +121,26 @@ public class ForecastActivity extends AppCompatActivity implements OnReposLoaded
 
     @Override
     public void onReposLoaded(List<City> cityList) {
-        for(City c:cityList){
-            String cCoor=c.getLocation().getLat()+","+c.getLocation().getLon();
-            Log.d("Forecast","Coordenadas ciudad "+c.getLocation().getName()+" "+cCoor);
-            if(cCoor.equals(coordInt)){
-                mCity=c;
+        for (City c : cityList) {
+            String cCoor = c.getLocation().getLat() + "," + c.getLocation().getLon();
+            Log.d("Forecast", "Coordenadas ciudad " + coordInt + "-" + cCoor);
+            if (cCoor.equals(coordInt)) {
+                Log.d("Forecast", "Ciudad para enseñar encontrada");
+                mCity = c;
             }
         }
 
-        Log.d("onReposLoaded","Ciudad fore "+mCity.toString());
-        try {
-            List<Forecastday> forecastdayList = mCity.getForecast().getForecastday();
-            mForecastList = forecastdayList;
-            mAdapter.clear();
-            for (Forecastday c : mForecastList) {
-                Log.d("ForecastList", c.getDate());
-                mAdapter.add(c);
-            }
-        }catch (Exception e){
+        Log.d("Forecast", "Ciudad fore " + mCity.toString());
 
+        List<Forecastday> forecastdayList = mCity.getForecast().getForecastday();
+        Log.d("Forecast",forecastdayList.toString());
+                mForecastList = forecastdayList;
+        mAdapter.clear();
+        for (Forecastday c : mForecastList) {
+            Log.d("ForecastList", c.getDate());
+            mAdapter.add(c);
         }
+
 
     }
 }
